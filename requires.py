@@ -60,20 +60,6 @@ class VaultKVRequires(Endpoint):
             relation.to_publish['hostname'] = socket.gethostname()
             relation.to_publish['isolated'] = isolated
 
-    def _get_first_value(self, key):
-        """Retrieve the first value found for a key
-
-        :param key: Name of relation data key to find
-        :type key: str
-        :returns value: Value of relation key or None
-        :rtype value: str, bool, int, float"""
-        for relation in self.relations:
-            for unit in relation.units:
-                value = unit.received.get(key)
-                if value:
-                    return value
-        return None
-
     @property
     def unit_role_id(self):
         """Retrieve the AppRole ID for this application unit or None
@@ -81,7 +67,7 @@ class VaultKVRequires(Endpoint):
         :returns role_id: AppRole ID for unit
         :rtype role_id: str"""
         role_key = '{}_role_id'.format(hookenv.local_unit())
-        return self._get_first_value(role_key)
+        return self.all_joined_units.received.get(role_key)
 
     @property
     def vault_url(self):
@@ -89,4 +75,4 @@ class VaultKVRequires(Endpoint):
 
         :returns vault_url: URL to access vault
         :rtype vault_url: str"""
-        return self._get_first_value('vault_url')
+        return self.all_joined_units.received.get('vault_url')
