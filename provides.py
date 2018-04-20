@@ -45,8 +45,7 @@ class VaultKVProvides(Endpoint):
 
     def set_role_id(self, unit, role_id):
         """ Set the AppRole ID for a specific remote unit """
-        for relation in self.relations:
-            relation.to_publish['{}_role_id'.format(unit)] = role_id
+        unit.relation.to_publish['{}_role_id'.format(unit.unit_name)] = role_id
 
     def requests(self):
         """ Retrieve full set of setup requests from all remote units """
@@ -58,11 +57,10 @@ class VaultKVProvides(Endpoint):
                 hostname = unit.received['hostname']
                 isolated = unit.received['isolated']
                 if not (secret_backend and access_address
-                        and hostname and isolated):
+                        and hostname and isolated is not None):
                     continue
                 requests.append({
-                    'unit_name': unit.unit_name,
-                    'app_name': unit.application_name,
+                    'unit': unit,
                     'access_address': access_address,
                     'secret_backend': secret_backend,
                     'hostname': hostname,
