@@ -43,6 +43,11 @@ class VaultKVProvides(Endpoint):
         for relation in self.relations:
             relation.to_publish['vault_url'] = vault_url
 
+    def publish_ca(self, vault_ca):
+        """ Publish SSL CA for Vault to all Relations """
+        for relation in self.relations:
+            relation.to_publish['vault_ca'] = vault_ca
+
     def set_role_id(self, unit, role_id):
         """ Set the AppRole ID for a specific remote unit """
         unit.relation.to_publish['{}_role_id'.format(unit.unit_name)] = role_id
