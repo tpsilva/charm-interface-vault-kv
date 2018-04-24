@@ -3,6 +3,13 @@
 This interface handles the communication with the vault charm using the
 vault-kv interface type.
 
+Vault will enable simple KV based secrets backends with AppRole based
+authentication and policies to allow consuming charms to store and retrieve
+secrets in Vault.
+
+Access to the backend will be limited to the network address binding of
+of the relation endpoint name.
+
 # Usage
 
 ## Requires
