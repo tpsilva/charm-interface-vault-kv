@@ -24,10 +24,14 @@ class VaultKVProvides(Endpoint):
     def new_secret_backend(self):
         # New backend request detected, set flags and clear changed flags
         set_flag(self.expand_name('endpoint.{endpoint_name}.new-request'))
-        clear_flag(self.expand_name('endpoint.{endpoint_name}.changed.access_address'))
-        clear_flag(self.expand_name('endpoint.{endpoint_name}.changed.secret_backend'))
-        clear_flag(self.expand_name('endpoint.{endpoint_name}.changed.hostname'))
-        clear_flag(self.expand_name('endpoint.{endpoint_name}.changed.isolated'))
+        clear_flag(self.expand_name('endpoint.{endpoint_name}.'
+                                    'changed.access_address'))
+        clear_flag(self.expand_name('endpoint.{endpoint_name}.'
+                                    'changed.secret_backend'))
+        clear_flag(self.expand_name('endpoint.{endpoint_name}.'
+                                    'changed.hostname'))
+        clear_flag(self.expand_name('endpoint.{endpoint_name}.'
+                                    'changed.isolated'))
 
     @when_not('endpoint.{endpoint_name}.joined')
     def broken(self):
@@ -61,8 +65,8 @@ class VaultKVProvides(Endpoint):
                 secret_backend = unit.received['secret_backend']
                 hostname = unit.received['hostname']
                 isolated = unit.received['isolated']
-                if not (secret_backend and access_address
-                        and hostname and isolated is not None):
+                if not (secret_backend and access_address and
+                        hostname and isolated is not None):
                     continue
                 requests.append({
                     'unit': unit,

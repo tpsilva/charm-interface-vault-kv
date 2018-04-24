@@ -16,7 +16,7 @@ from charmhelpers.core import hookenv
 
 from charms.reactive import set_flag, clear_flag
 from charms.reactive import Endpoint
-from charms.reactive import when_any, when_not, when
+from charms.reactive import when_not, when
 
 
 class VaultKVRequires(Endpoint):
