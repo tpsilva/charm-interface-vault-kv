@@ -23,7 +23,7 @@ class VaultKVRequires(Endpoint):
 
     @when('endpoint.{endpoint_name}.changed')
     def data_changed(self):
-        if self.unit_role_id and self.vault_url:
+        if self.unit_role_id and self.unit_token and self.vault_url:
             set_flag(self.expand_name('{endpoint_name}.available'))
         else:
             clear_flag(self.expand_name('{endpoint_name}.available'))
@@ -68,6 +68,16 @@ class VaultKVRequires(Endpoint):
         :rtype role_id: str"""
         role_key = '{}_role_id'.format(hookenv.local_unit())
         return self.all_joined_units.received.get(role_key)
+
+    @property
+    def unit_token(self):
+        """Retrieve the one-shot token for secret_id retrieval for
+        this application unit or None
+
+        :returns token: Vault one-shot toekn for secret_id response
+        :rtype token: str"""
+        token_key = '{}_token'.format(hookenv.local_unit())
+        return self.all_joined_units.received.get(token_key)
 
     @property
     def vault_url(self):

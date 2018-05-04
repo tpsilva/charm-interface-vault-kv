@@ -8,7 +8,9 @@ authentication and policies to allow consuming charms to store and retrieve
 secrets in Vault.
 
 Access to the backend will be limited to the network address binding of
-of the relation endpoint name.
+of the relation endpoint name and ownership of a secret\_id which the
+consuming application must retrieve using a one-shot token out-of-band
+from Juju.
 
 # Usage
 
@@ -41,6 +43,7 @@ from charms.reactive.flags import endpoint_from_flag
  	configure_my_local_service(
  		vault_url=secrets.vault_url,
  		role_id=secrets.unit_role_id,
+        secret_id=vault.get_response(secrets.unit_token),
  		backend='charm-vaultlocker',
  	)
  ```

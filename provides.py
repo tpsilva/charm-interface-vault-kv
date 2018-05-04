@@ -52,9 +52,11 @@ class VaultKVProvides(Endpoint):
         for relation in self.relations:
             relation.to_publish['vault_ca'] = vault_ca
 
-    def set_role_id(self, unit, role_id):
-        """ Set the AppRole ID for a specific remote unit """
+    def set_role_id(self, unit, role_id, token):
+        """ Set the AppRole ID and token for out-of-band Secret ID retrieval
+        for a specific remote unit """
         unit.relation.to_publish['{}_role_id'.format(unit.unit_name)] = role_id
+        unit.relation.to_publish['{}_token'.format(unit.unit_name)] = token
 
     def requests(self):
         """ Retrieve full set of setup requests from all remote units """
