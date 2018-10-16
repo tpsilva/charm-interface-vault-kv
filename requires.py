@@ -42,7 +42,7 @@ class VaultKVRequires(Endpoint):
         """ Determine the local endpoint network address """
         try:
             return hookenv.network_get_primary_address(
-                self.expand_name({'endpoint_name'})
+                self.expand_name('{endpoint_name}')
             )
         except NotImplementedError:
             return hookenv.unit_private_ip()
