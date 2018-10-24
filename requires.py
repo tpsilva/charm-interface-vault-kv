@@ -94,4 +94,6 @@ class VaultKVRequires(Endpoint):
 
         :returns vault_ca: Vault CA Certificate data
         :rtype vault_ca: str"""
-        return base64.b64decode(self.all_joined_units.received.get('vault_ca'))
+        encoded_ca = self.all_joined_units.received.get('vault_ca')
+        if encoded_ca:
+            return base64.b64decode(encoded_ca)
