@@ -10,6 +10,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import base64
 import socket
 
 from charmhelpers.core import hookenv
@@ -86,3 +87,11 @@ class VaultKVRequires(Endpoint):
         :returns vault_url: URL to access vault
         :rtype vault_url: str"""
         return self.all_joined_units.received.get('vault_url')
+
+    @property
+    def vault_ca(self):
+        """Retrieve the CA published by Vault
+
+        :returns vault_ca: Vault CA Certificate data
+        :rtype vault_ca: str"""
+        return base64.b64decode(self.all_joined_units.received.get('vault_ca'))
