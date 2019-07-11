@@ -60,6 +60,7 @@ class VaultKVRequires(Endpoint):
             relation.to_publish['access_address'] = self.endpoint_address
             relation.to_publish['hostname'] = socket.gethostname()
             relation.to_publish['isolated'] = isolated
+            relation.to_publish['unit_name'] = hookenv.local_unit()
 
     @property
     def unit_role_id(self):
