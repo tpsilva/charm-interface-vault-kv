@@ -76,6 +76,17 @@ class VaultKVProvides(Endpoint):
         for relation in self.relations:
             relation.to_publish['vault_ca'] = vault_ca
 
+    @when_not('leadership.is_leader')
+    def clear_role_id(self):
+        for relation in self.relations:
+            units = relation.units
+            if units:
+                for unit in units:
+                    role_id_key = '{}_role_id'.format(unit.unit_name)
+                    token_key = '{}_token'.format(unit.unit_name)
+                    unit.relation.to_publish_raw[role_id_key] = None
+                    unit.relation.to_publish_raw[token_key] = None
+
     def set_role_id(self, unit, role_id, token):
         """ Set the AppRole ID and token for out-of-band Secret ID retrieval
         for a specific remote unit """
